@@ -52,6 +52,14 @@ function App() {
 
   const [people, setPeople] = useState<peoplePayload | null>(null);
 
+  useEffect(() => {
+    fetch('/dataPeople.json')
+      .then(resp => resp.json())
+      .then(data => {
+        setPeople(data)
+      });
+  }, [])
+
   return (
     <div className="App">
       <Heading title="Baracode"></Heading>
@@ -60,7 +68,7 @@ function App() {
       </Box>
       <List items={["one","two","three"]} onClick={onListClick}/>
       <Box>
-
+        {JSON.stringify(people)}
       </Box>
     </div>
   );
