@@ -1,19 +1,18 @@
-import React, { useReducer, useRef } from 'react';
-import { useCallback, useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { isTemplateExpression } from 'typescript';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useReducer,
+  useRef,
+} from "react";
+import "./App.css";
 
-const Heading = ({title}:{title: string},{name}:{name: string}) => (
-  <h2>
-    {title}
-  </h2>
-)
+const Heading = ({ title }: { title: string }) => <h2>{title}</h2>;
 
-const Box:React.FunctionComponent = ({ children }) => (
+const Box: React.FunctionComponent = ({ children }) => (
   <div
     style={{
-      padding: '1rem',
+      padding: "1rem",
       fontWeight: "bold",
     }}
   >
@@ -27,19 +26,15 @@ const List: React.FunctionComponent<{
 }> = ({ items, onClick }) => (
   <ul>
     {items.map((item, index) => (
-      <li key={index} onClick={() => onClick?.(item)}>{item}</li>
+      <li key={index} onClick={() => onClick?.(item)}>
+        {item}
+      </li>
     ))}
   </ul>
-)
+);
 
-type peopleData = {
-  "name":string,
-  "age":number,
-  "job":string
-}
-
-interface peoplePayload {
-  peopleList : peopleData[];
+interface Payload {
+  text: string;
 }
 
 interface Todo {
@@ -52,19 +47,18 @@ type ActionType =
   | { type: "ADD"; text: string }
   | { type: "REMOVE"; id: number };
 
-
-function App() {
+function App2() {
   const onListClick = useCallback((item: string) => {
-    alert(item)
+    alert(item);
   }, []);
 
-  const [people, setPeople] = useState<peoplePayload | null>(null);
+  const [payload, setPayload] = useState<Payload | null>(null);
 
   useEffect(() => {
-    fetch('/dataPeople.json')
-      .then(resp => resp.json())
-      .then(data => {
-        setPeople(data)
+    fetch("/data.json")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setPayload(data);
       });
   }, []);
 
@@ -99,28 +93,24 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Heading title="Baracode"></Heading>
-      <Box>
-        Hello there
-      </Box>
-      <List items={["one","two","three"]} onClick={onListClick}/>
-      <Box>
-        {JSON.stringify(people)}
-      </Box>
+    <div>
+      <Heading title="Introduction" />
+      <Box>Hello there</Box>
+      <List items={["one", "two", "three"]} onClick={onListClick} />
+      <Box>{JSON.stringify(payload)}</Box>
 
-      <Heading title="Todo"></Heading>
+      <Heading title="Todos" />
       {todos.map((todo) => (
-        <div key = {todo.id}>
+        <div key={todo.id}>
           {todo.text}
-          <button 
-            onClick={() => 
+          <button
+            onClick={() =>
               dispatch({
-                type: "REMOVE", 
+                type: "REMOVE",
                 id: todo.id,
-                })
-              }
-            >
+              })
+            }
+          >
             Remove
           </button>
         </div>
@@ -133,4 +123,4 @@ function App() {
   );
 }
 
-export default App;
+export default App2;
