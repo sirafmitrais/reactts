@@ -32,6 +32,13 @@ const List: React.FunctionComponent<{
   </ul>
 )
 
+type IncrementerType = {
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>
+}
+
+const Incrementer = ({ value, setValue}: IncrementerType) => <button onClick={() => setValue(value + 1)}>Add - {value}</button>;
+
 type peopleData = {
   "name":string,
   "age":number,
@@ -59,7 +66,7 @@ function App() {
   }, []);
 
   const [people, setPeople] = useState<peoplePayload | null>(null);
-
+  const [value, setValue] = useState(0);
   useEffect(() => {
     fetch('/dataPeople.json')
       .then(resp => resp.json())
@@ -104,6 +111,7 @@ function App() {
       <Box>
         Hello there
       </Box>
+      <Incrementer value={value} setValue={setValue}></Incrementer>
       <List items={["one","two","three"]} onClick={onListClick}/>
       <Box>
         {JSON.stringify(people)}
