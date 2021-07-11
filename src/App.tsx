@@ -32,12 +32,22 @@ const List: React.FunctionComponent<{
   </ul>
 )
 
+
+const useNumber = (initialValue: number) => useState<number>(initialValue)
+
+type UseNumberType = ReturnType<typeof useNumber>[0]
+type UseNumberSetType = ReturnType<typeof useNumber>[1]
+
+
 type IncrementerType = {
-  value: number;
-  setValue: React.Dispatch<React.SetStateAction<number>>
+  value: UseNumberType;
+  setValue: UseNumberSetType;
 }
 
-const Incrementer = ({ value, setValue}: IncrementerType) => <button onClick={() => setValue(value + 1)}>Add - {value}</button>;
+const Incrementer = ({ value, setValue}: IncrementerType) => 
+  <button onClick={() => setValue(value + 1)}>
+    Add - {value}
+  </button>;
 
 type peopleData = {
   "name":string,
